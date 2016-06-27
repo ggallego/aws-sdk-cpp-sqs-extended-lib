@@ -1,6 +1,6 @@
 # aws-sdk-cpp-sqs-extended-lib
 
-This is a CPP unofficial port of [Amazon SQS Extended Client Library for Java](https://github.com/ggallego/amazon-sqs-java-extended-client-lib) built using [aws-sdk-cpp](https://github.com/aws/aws-sdk-cpp) cmake structure.
+This is an unofficial CPP port of [Amazon SQS Extended Client Library for Java](https://github.com/ggallego/amazon-sqs-java-extended-client-lib) built using [aws-sdk-cpp](https://github.com/aws/aws-sdk-cpp) cmake structure.
 
 ## Requirements:
 * [aws-sdk-cpp](https://github.com/aws/aws-sdk-cpp) already built.
