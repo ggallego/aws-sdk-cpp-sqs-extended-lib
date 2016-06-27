@@ -35,7 +35,12 @@ $ make
 ```
 
 ## How to Run integration tests:
+awscli on ec2 is on version 1.2.X, aws-cpp-sdk Aws::InitAPI() needs a newer version, so you need setup AWS_* env vars to be able to run it.
 ```
+$ export AWS_ACCESS_KEY_ID=<ACCESS_KEY>
+$ export AWS_SECRET_ACCESS_KEY=<SECRET_KEY>
+$ export AWS_DEFAULT_REGION=<REGION>
+
 $ cd aws-cpp-sdk-sqs-extended-lib-integration-tests
 $ ./runSQSExtendedLibIntegrationTest
 ```
