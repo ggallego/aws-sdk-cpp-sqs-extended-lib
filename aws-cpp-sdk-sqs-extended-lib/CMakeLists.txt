@@ -1,0 +1,67 @@
+cmake_minimum_required(VERSION 2.6)
+project(aws-cpp-sdk-sqs-extended-lib)
+
+  file(GLOB AWS_SQS_EXTENDED_LIB_HEADERS
+    "include/aws/sqs/extendedlib/*.h"
+  )
+
+  file(GLOB AWS_SQS_EXTENDED_LIB_SOURCE
+    "source/*.cpp"
+  )
+
+  file(GLOB SQS_EXTENDED_LIB_UNIFIED_HEADERS
+    ${AWS_SQS_EXTENDED_LIB_HEADERS}
+  )
+
+  file(GLOB SQS_EXTENDED_LIB_UNITY_SRC
+    ${AWS_SQS_EXTENDED_LIB_SOURCE}
+  )
+
+  if(ENABLE_UNITY_BUILD)
+    enable_unity_build("SQS_EXTENDED_LIB" SQS_EXTENDED_LIB_UNITY_SRC)
+  endif()
+
+  file(GLOB SQS_EXTENDED_LIB_SRC
+    ${SQS_EXTENDED_LIB_UNIFIED_HEADERS}
+    ${SQS_EXTENDED_LIB_UNITY_SRC}
+  )
+
+  if(WIN32)
+    #if we are compiling for visual studio, create a sane directory tree.
+    if(MSVC)
+      source_group("Header Files\\aws\\sqs\\extendedlib" FILES ${AWS_SQS_EXTENDED_LIB_HEADERS})
+      source_group("Source Files" FILES ${AWS_SQS_EXTENDED_LIB_SOURCE})
+    endif(MSVC)
+  endif()
+
+  find_package(aws-sdk-cpp)
+
+  if(MSVC AND BUILD_SHARED_LIBS)
+    add_definitions("-DAWS_SQS_EXTENDED_LIB_EXPORTS")
+  endif()
+
+  add_library(aws-cpp-sdk-sqs-extended-lib ${LIBTYPE} ${SQS_EXTENDED_LIB_SRC})
+
+  target_include_directories(aws-cpp-sdk-sqs-extended-lib PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
+  
+  target_link_libraries(aws-cpp-sdk-sqs-extended-lib aws-cpp-sdk-core aws-cpp-sdk-sqs aws-cpp-sdk-s3)
+
+  #uncomment when unit tests are automatically generated
+  #add_test(run${metadata.namespace}Tests run${metadata.namespace}Tests)
+
+  if(SIMPLE_INSTALL)
+      install (TARGETS aws-cpp-sdk-sqs-extended-lib
+               ARCHIVE DESTINATION ${ARCHIVE_DIRECTORY}
+               LIBRARY DESTINATION lib
+               RUNTIME DESTINATION bin)
+  else()
+      install (TARGETS aws-cpp-sdk-sqs-extended-lib
+               ARCHIVE DESTINATION ${ARCHIVE_DIRECTORY}/${SDK_INSTALL_BINARY_PREFIX}/${PLATFORM_INSTALL_QUALIFIER}/\${CMAKE_INSTALL_CONFIG_NAME}
+               LIBRARY DESTINATION lib/${SDK_INSTALL_BINARY_PREFIX}/${PLATFORM_INSTALL_QUALIFIER}/\${CMAKE_INSTALL_CONFIG_NAME}
+               RUNTIME DESTINATION bin/${SDK_INSTALL_BINARY_PREFIX}/${PLATFORM_INSTALL_QUALIFIER}/\${CMAKE_INSTALL_CONFIG_NAME})
+  endif()
+
+  install (FILES ${AWS_SQS_EXTENDED_LIB_HEADERS} DESTINATION include/aws/sqs/extended-lib)
+
