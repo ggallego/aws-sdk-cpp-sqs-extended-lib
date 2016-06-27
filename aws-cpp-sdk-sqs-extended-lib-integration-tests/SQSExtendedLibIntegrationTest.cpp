@@ -13,8 +13,7 @@
  * permissions and limitations under the License.
  */
 
-//#include <aws/external/gtest.h>
-#include "gtest/gtest.h"
+#include <aws/external/gtest.h>
 #include <aws/core/client/ClientConfiguration.h>
 #include <aws/core/auth/AWSCredentialsProviderChain.h>
 #include <aws/s3/S3Client.h>
